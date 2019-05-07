@@ -12,6 +12,15 @@
         var weibo = {{.weibo}};
         var weibocount = weibo.length;
         var temp = new Array();
+        $.ajax({
+            url:"/countfollow?userid={{.user.Userid}}",
+            type:"get",
+            dataType:"json",
+            success:function(result){
+                document.getElementById("CountFollow").innerHTML = result.CountFollow;
+                document.getElementById("CountFollowed").innerHTML = result.CountFollowed;
+            }
+        });
         function postWeibo() {
             var weiboText=document.getElementById("postWeiboText").value;
             console.log(userid);
@@ -62,24 +71,28 @@
                 }
             })
         }
+
     </script>
     <script>
         $(function(){
             /*公共部分
-            * 导航栏
-            */
+            * 导航栏*/
             $(".headerpage").load("../navbar.html");
         })
+        $.getScript("../static/js/search.js",function(){
+            // alert("载入成功！");
+        });
     </script>
 
 </head>
 <body>
-    <div class="headerpage"></div>
+  <div class="headerpage"></div>
 
-        <!-- 正文 -->
+  <!-- 正文 -->
     <div class="container">
         <!-- 右侧个人简单信息 -->
         <div style="width: 20%; float: right; background-color: #fff;height: 220px;">
+            <hr>
             <!-- 头像 -->
             <a href="/my/{{.user.Username}}"><img src="../static/pic/faceimages/{{.user.Userid}}.jpg" style="margin-top: 10px;text-align:center"
                                                   height="90px " width="90px" class="img-circle " alt="">
@@ -89,8 +102,8 @@
             <table  style="table-layout: fixed;text-align:center">
                 <tr>
                     <td><a href="/my/{{.user.Username}}"><span id="numberOfWeibo"></span> 微博&nbsp;</a></td>
-                    <td><a href="listFollow.action?userId=${user.userId }">6 关注&nbsp;</a></td>
-                    <td><a href="listFans.action?userId=${user.userId }">7 粉丝</a></td>
+                    <td><a href="/searchUser?showtype=follow&userid={{.user.Userid}}"><span id="CountFollow">Loading...</span> 关注&nbsp;</a></td>
+                    <td><a href="/searchUser?showtype=followed&userid={{.user.Userid}}"><span id="CountFollowed">Loading...</span> 粉丝</a></td>
                 </tr>
             </table>
             <br>
@@ -101,8 +114,10 @@
 
 
         <div style="width: 70%; float: left;">
+
             <!-- 发送新微博 -->
             <div class="container" style="width: auto; background-color: #fff;">
+                <hr>
                 <p style="font-size: 40px; color: black; text-align: center">分享新鲜事</p>
                 <div class="form-postweibo">
                     <span style="font-size:18px;">
@@ -248,6 +263,7 @@
 
              function countChar(textareaName,spanName)
              {document.getElementById(spanName).innerHTML = document.getElementById(textareaName).value.length;}
+
          </script>
  </body>
  </html>

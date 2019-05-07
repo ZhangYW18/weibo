@@ -1,10 +1,9 @@
 package main
 
-//import "github.com/gin-gonic/gin"
-
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/VampireWeekend/weibo/controllers"
 	"github.com/VampireWeekend/weibo/models"
@@ -15,7 +14,6 @@ import (
 
 func main() {
 	router := gin.Default()
-	//	router.Static("/weibo", "./views")
 	router.Static("/static", "/home/jcole/go/src/github.com/VampireWeekend/weibo/static")
 	router.LoadHTMLGlob("/home/jcole/go/src/github.com/VampireWeekend/weibo/views/**/*")
 
@@ -46,22 +44,53 @@ func main() {
 	})
 
 	router.GET("/login", func(c *gin.Context) {
-		//根据完整文件名渲染模板，并传递参数
 		c.HTML(http.StatusOK, "login.html", gin.H{
 			"title": "微博登录",
 		})
 	})
 
 	router.GET("/register", func(c *gin.Context) {
-		//根据完整文件名渲染模板，并传递参数
 		c.HTML(http.StatusOK, "register.html", gin.H{
 			"title": "微博注册",
 		})
 	})
 
+	router.GET("/searchUser", func(c *gin.Context) {
+		showtype := c.Query("showtype")
+		userid, _ := strconv.Atoi(c.Query("userid"))
+		user := models.FindUserByID(userid)
+		user.Password = "***"
+		if showtype == "follow" {
+			result := controllers.SearchFollowUser(userid)
+			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
+				"title":  user.Username + "关注的用户",
+				"result": result,
+				"user":   user,
+			})
+		} else if showtype == "followed" {
+			result := controllers.SearchFollowedUser(userid)
+			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
+				"title":  "关注" + user.Username + "的用户",
+				"result": result,
+				"user":   user,
+			})
+		} else if showtype == "search" {
+			name := c.Query("searchName")
+			result := controllers.SearchUser(name, userid)
+			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
+				"title":  "查询用户",
+				"result": result,
+				"user":   user,
+			})
+		}
+	})
+
 	router.GET("/navbar.html", func(c *gin.Context) {
-		//根据完整文件名渲染模板，并传递参数
-		c.HTML(http.StatusOK, "navbar.html", gin.H{})
+		userid, _ := strconv.Atoi(c.Query("userid"))
+		user := models.FindUserByID(userid)
+		c.HTML(http.StatusOK, "navbar.html", gin.H{
+			"user": user,
+		})
 	})
 
 	db, err := models.InitDB()
@@ -75,8 +104,11 @@ func main() {
 	router.POST("/registerpost", controllers.RegisterPost)
 	router.POST("/weibopost", controllers.WeiboPost)
 	router.POST("/commentpost", controllers.CommentPost)
+	router.POST("/follow", controllers.Follow)
+	router.POST("/unfollow", controllers.Unfollow)
+	router.GET("/countfollow", controllers.CountFollow)
 
-	router.Run(":8091")
+	router.Run(":8087")
 
 	defer db.Close()
 }
