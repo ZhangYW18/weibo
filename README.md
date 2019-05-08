@@ -29,7 +29,9 @@
 ```
 -weibo
     |-controllers 控制器目录
+    |-images README文件需要的图片
     |-models 数据库访问目录
+    |-resources 数据库资源目录
     |-static 静态资源目录
         |-css css文件目录
         |-fonts 字体目录
@@ -45,7 +47,16 @@
 
 在运行项目之前，请先配置数据库。
 
-（To Be Updated...)
+1. 运行文件 /resources/weibo.sql
+
+2. 在项目中的models/models.go第59行，将以下代码中的数据库配置信息改为你自己的信息
+
+   ```go
+   db, err := gorm.Open("mysql", "debian-sys-maint:#VictorOladipo#@tcp(127.0.0.1:3306)/weibo?charset=utf8&parseTime=True&loc=Local")
+   //     (username):(password)@(connection_address)/weibo?charset=utf8&parseTime=True&loc=Local")
+   ```
+
+   
 
 之后运行后台服务
 
