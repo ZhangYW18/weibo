@@ -79,10 +79,12 @@ func main() {
 		} else if showtype == "search" {
 			name := c.Query("searchName")
 			result := controllers.SearchUser(name, userid)
+			count := len(result)
 			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
-				"title":  "查询用户",
-				"result": result,
-				"user":   user,
+				"title":      "查询用户",
+				"result":     result,
+				"user":       user,
+				"countusers": count,
 			})
 		}
 	})
@@ -110,7 +112,7 @@ func main() {
 	router.POST("/unfollow", controllers.Unfollow)
 	router.GET("/countfollow", controllers.CountFollow)
 
-	router.Run(":8080")
+	router.Run(":8081")
 
 	defer db.Close()
 }

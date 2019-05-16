@@ -22,6 +22,9 @@
 
 <body style="padding: 80px">
     <div class="headerpage"></div>
+    <div class="container" style="width: auto; background-color: #fff;">
+        <hr><p style="font-size: 40px; color: black; text-align: center">找到{{.countusers}}个用户</p>
+    </div>
     <div class="container">
         <div class="row" align="center" style="background-color: #fff">
             {{range $postkey,$postvalue:=.result}}
