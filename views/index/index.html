@@ -75,17 +75,16 @@
                 }
             })
         }
-
+        $.getScript("../static/js/search.js",function(){
+            // alert("载入成功！");
+        });
     </script>
     <script>
         $(function(){
             /*公共部分
             * 导航栏*/
-            $(".headerpage").load("../navbar.html");
+            $(".headerpage").load("../navbar.html?userid="+user.Userid);
         })
-        $.getScript("../static/js/search.js",function(){
-            // alert("载入成功！");
-        });
     </script>
 
 </head>

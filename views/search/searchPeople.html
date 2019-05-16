@@ -71,7 +71,12 @@
 
     <script type="text/javascript">
         var result = {{.result}};
-        var resultlen = result.length;
+        var resultlen;
+        if (result==null) {
+            resultlen = 0;
+        } else {
+            resultlen = result.length;
+        }
         var nowid = user['Userid'];
         console.log("nowid: "+nowid);
         for (var i=0;i<resultlen;i++) {

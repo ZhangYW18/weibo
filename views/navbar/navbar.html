@@ -21,11 +21,11 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a href="#" class="navbar-brand">Weibo</a>
+                <a href="/index/{{.user.Username}}" class="navbar-brand">Weibo</a>
             </div>
             <div id="navbar-left" class="collapse navbar-collapse navbar-left">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/index/{{.user.Username}}">我的主页</a></li>
+                    <li class="active"><a href="/my/{{.user.Username}}">我的主页</a></li>
                     <li><input required="required" id="searchText" type="text"
                            style="margin-top: 8px; " class="form-control" placeholder="搜索用户"></li>
                     <li><button style="margin-top: 8px; margin-left: 10px;"
