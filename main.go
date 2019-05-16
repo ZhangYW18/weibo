@@ -23,10 +23,11 @@ func main() {
 		user.Password = "***"
 		weibo := controllers.GetAllIndexWeibo(user.Userid)
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"userid":   user.Userid,
-			"username": username,
-			"user":     user,
-			"weibo":    weibo,
+			"userid":     user.Userid,
+			"username":   username,
+			"user":       user,
+			"weibo":      weibo,
+			"weibocount": models.FindWeiboCountByUserID(user.Userid),
 		})
 	})
 
@@ -36,10 +37,11 @@ func main() {
 		user.Password = "***"
 		weibo := controllers.GetAllWeibo(user.Userid)
 		c.HTML(http.StatusOK, "my.html", gin.H{
-			"userid":   user.Userid,
-			"username": username,
-			"user":     user,
-			"weibo":    weibo,
+			"userid":     user.Userid,
+			"username":   username,
+			"user":       user,
+			"weibo":      weibo,
+			"weibocount": models.FindWeiboCountByUserID(user.Userid),
 		})
 	})
 
@@ -108,7 +110,7 @@ func main() {
 	router.POST("/unfollow", controllers.Unfollow)
 	router.GET("/countfollow", controllers.CountFollow)
 
-	router.Run(":8087")
+	router.Run(":8080")
 
 	defer db.Close()
 }

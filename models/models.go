@@ -66,11 +66,18 @@ func InitDB() (*gorm.DB, error) {
 	return nil, err
 }
 
-//根据ID查询用户
+//根据name查询用户
 func FindUserByName(userid string) User {
 	var query User
 	DB.Where("username=?", userid).First(&query)
 	return query
+}
+
+//根据name查询用户
+func FindUserDuplicate(userid string) int {
+	var count int
+	DB.Table("user").Where("username=?", userid).Count(&count)
+	return count
 }
 
 //根据ID查询用户
@@ -109,6 +116,13 @@ func FindAllWeiboByUserID(userid int) []Weibos {
 		ans = append(ans, this)
 	}
 	return ans
+}
+
+//根据用户自己，查找微博数量
+func FindWeiboCountByUserID(userid int) int {
+	var count int
+	DB.Table("weibo").Where("userid=?", userid).Count(&count)
+	return count
 }
 
 //根据用户自己和关注，查找微博
