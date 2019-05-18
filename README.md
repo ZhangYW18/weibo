@@ -16,7 +16,7 @@
 
 ## 技术框架及开发环境
 
-前端框架：Bootstrap , jQuery 
+前端框架：Bootstrap , jQuery
 
 前端开发环境： IntelliJ Webstorm
 
@@ -56,7 +56,7 @@
    //     (username):(password)@(connection_address)/weibo?charset=utf8&parseTime=True&loc=Local")
    ```
 
-   
+
 
 之后运行后台服务
 
@@ -89,11 +89,8 @@
     router.Run(":8087")   // 默认为8087端口
     ```
 
-4. cd到项目根目录，运行命令go run main.go，则可以在127.0.0.1:8087/login进入登录界面
+4. cd到项目根目录，运行命令go run main.go，则可以在127.0.0.1:8087进入登录界面
 
 ## 项目示例
 
 To be updated ......
-
-
-
