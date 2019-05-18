@@ -42,7 +42,7 @@
                     if(true===result.flag){
                         console.log("success");
                         alert("微博发布成功");
-                        window.location.href="/index/"+user.Username;
+                        window.location.reload();
                     }else{
                         alert("network error");
                     }
@@ -68,7 +68,7 @@
                     if(true===result.flag){
                         console.log("success");
                         alert("评论发布成功");
-                        window.location.href="/index/"+user.Username;
+                        window.location.reload();
                     }else{
                         alert("network error");
                     }

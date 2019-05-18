@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"strconv"
 
 	"github.com/VampireWeekend/weibo/controllers"
 	"github.com/VampireWeekend/weibo/models"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -17,92 +17,23 @@ func main() {
 	router.Static("/static", "/home/jcole/go/src/github.com/VampireWeekend/weibo/static")
 	router.LoadHTMLGlob("/home/jcole/go/src/github.com/VampireWeekend/weibo/views/**/*")
 
-	router.GET("/index/:username", func(c *gin.Context) {
-		username := c.Param("username")
-		user := models.FindUserByName(username)
-		user.Password = "***"
-		weibo := controllers.GetAllIndexWeibo(user.Userid)
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"userid":     user.Userid,
-			"username":   username,
-			"user":       user,
-			"weibo":      weibo,
-			"weibocount": models.FindWeiboCountByUserID(user.Userid),
-		})
-	})
-
-	router.GET("/my/:username", func(c *gin.Context) {
-		username := c.Param("username")
-		user := models.FindUserByName(username)
-		user.Password = "***"
-		weibo := controllers.GetAllWeibo(user.Userid)
-		c.HTML(http.StatusOK, "my.html", gin.H{
-			"userid":     user.Userid,
-			"username":   username,
-			"user":       user,
-			"weibo":      weibo,
-			"weibocount": models.FindWeiboCountByUserID(user.Userid),
-		})
-	})
-
-	router.GET("/login", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "login.html", gin.H{
-			"title": "微博登录",
-		})
-	})
-
-	router.GET("/register", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "register.html", gin.H{
-			"title": "微博注册",
-		})
-	})
-
-	router.GET("/searchUser", func(c *gin.Context) {
-		showtype := c.Query("showtype")
-		userid, _ := strconv.Atoi(c.Query("userid"))
-		user := models.FindUserByID(userid)
-		user.Password = "***"
-		if showtype == "follow" {
-			result := controllers.SearchFollowUser(userid)
-			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
-				"title":  user.Username + "关注的用户",
-				"result": result,
-				"user":   user,
-			})
-		} else if showtype == "followed" {
-			result := controllers.SearchFollowedUser(userid)
-			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
-				"title":  "关注" + user.Username + "的用户",
-				"result": result,
-				"user":   user,
-			})
-		} else if showtype == "search" {
-			name := c.Query("searchName")
-			result := controllers.SearchUser(name, userid)
-			count := len(result)
-			c.HTML(http.StatusOK, "searchPeople.html", gin.H{
-				"title":      "查询用户",
-				"result":     result,
-				"user":       user,
-				"countusers": count,
-			})
-		}
-	})
-
-	router.GET("/navbar.html", func(c *gin.Context) {
-		userid, _ := strconv.Atoi(c.Query("userid"))
-		user := models.FindUserByID(userid)
-		c.HTML(http.StatusOK, "navbar.html", gin.H{
-			"user": user,
-		})
-	})
-
 	db, err := models.InitDB()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	db.SingularTable(true)
+
+	setSessions(router)
+
+	router.GET("/", controllers.IndexGet)
+	router.GET("/index", controllers.IndexGet)
+	router.GET("/my", controllers.MyGet)
+	router.GET("/my/:username", controllers.MyAlternativeGet)
+	router.GET("/login", controllers.LoginGet)
+	router.GET("/register", controllers.RegisterGet)
+	router.GET("/searchUser", controllers.SearchGet)
+	router.GET("/navbar.html", controllers.NavbarGet)
 
 	router.POST("/loginpost", controllers.LoginPost)
 	router.POST("/registerpost", controllers.RegisterPost)
@@ -111,8 +42,18 @@ func main() {
 	router.POST("/follow", controllers.Follow)
 	router.POST("/unfollow", controllers.Unfollow)
 	router.GET("/countfollow", controllers.CountFollow)
+	router.GET("/logout", controllers.LogoutGet)
 
-	router.Run(":8081")
+	router.Run(":8079")
 
 	defer db.Close()
+}
+
+//setSessions initializes sessions & csrf middlewares
+func setSessions(router *gin.Engine) {
+	//https://github.com/gin-gonic/contrib/tree/master/sessions
+	//	store := cookie.NewStore([]byte(os.Getenv("SESSION_KEY")))
+	store := cookie.NewStore([]byte("secret"))
+	store.Options(sessions.Options{HttpOnly: true, MaxAge: 7 * 86400, Path: "/"}) //Also set Secure: true if using SSL, you should though
+	router.Use(sessions.Sessions("gin-session", store))
 }

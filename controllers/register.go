@@ -5,9 +5,20 @@ import (
 	"strconv"
 
 	"github.com/VampireWeekend/weibo/models"
+	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 )
+
+func RegisterGet(c *gin.Context) {
+	session := sessions.Default(c)
+	if session.Get(SESSION_KEY) != nil {
+		c.Redirect(http.StatusSeeOther, "/index")
+	}
+	c.HTML(http.StatusOK, "register.html", gin.H{
+		"title": "微博注册",
+	})
+}
 
 func RegisterPost(c *gin.Context) {
 	var user models.User

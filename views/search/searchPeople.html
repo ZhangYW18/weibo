@@ -25,6 +25,16 @@
     <div class="container" style="width: auto; background-color: #fff;">
         <div id="resultcount" style="display: none"><hr><p style="font-size: 40px; color: black; text-align: center">找到{{.countusers}}个用户</p></div>
     </div>
+    {{if .queryFollowUsername}}
+    <div class="container" style="width: auto; background-color: #fff;">
+		<div id="followQueryResult"><hr><p style="font-size: 40px; color: black; text-align: center">{{.queryFollowUsername}}关注的人</p></div>
+    </div>
+    {{end}}
+    {{if .queryFollowedUsername}}
+    <div class="container" style="width: auto; background-color: #fff;">
+		<div id="followQueryResult"><hr><p style="font-size: 40px; color: black; text-align: center">关注{{.queryFollowedUsername}}的人</p></div>
+    </div>
+    {{end}}
     <div class="container">
         <div class="row" align="center" style="background-color: #fff">
             {{range $postkey,$postvalue:=.result}}

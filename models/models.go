@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/gob"
 	"fmt"
 	"time"
 
@@ -63,6 +64,7 @@ func InitDB() (*gorm.DB, error) {
 		DB = db
 		return db, err
 	}
+	gob.Register(&User{})
 	return nil, err
 }
 
