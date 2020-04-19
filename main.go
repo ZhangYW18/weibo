@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/VampireWeekend/weibo/controllers"
-	"github.com/VampireWeekend/weibo/models"
+	"github.com/ZhangYW18/weibo/controllers"
+	"github.com/ZhangYW18/weibo/models"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -14,8 +14,8 @@ import (
 
 func main() {
 	router := gin.Default()
-	router.Static("/static", "/home/jcole/go/src/github.com/VampireWeekend/weibo/static")
-	router.LoadHTMLGlob("/home/jcole/go/src/github.com/VampireWeekend/weibo/views/**/*")
+	router.Static("/static", "/home/jcole/go/src/github.com/ZhangYW18/weibo/static")
+	router.LoadHTMLGlob("/home/jcole/go/src/github.com/ZhangYW18/weibo/views/**/*")
 
 	db, err := models.InitDB()
 	if err != nil {
@@ -54,6 +54,6 @@ func setSessions(router *gin.Engine) {
 	//https://github.com/gin-gonic/contrib/tree/master/sessions
 	//	store := cookie.NewStore([]byte(os.Getenv("SESSION_KEY")))
 	store := cookie.NewStore([]byte("secret"))
-	store.Options(sessions.Options{HttpOnly: true, MaxAge: 7 * 86400, Path: "/"}) //Also set Secure: true if using SSL, you should though
+	store.Options(sessions.Options{HttpOnly: true, MaxAge: 7 * 86400, Path: "/"})
 	router.Use(sessions.Sessions("gin-session", store))
 }

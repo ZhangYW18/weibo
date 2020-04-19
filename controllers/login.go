@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/VampireWeekend/weibo/models"
 	"github.com/gin-contrib/sessions"
+
+	"github.com/ZhangYW18/weibo/models"
 
 	"github.com/gin-gonic/gin"
 )

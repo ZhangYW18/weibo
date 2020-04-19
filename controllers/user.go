@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/VampireWeekend/weibo/models"
+	"github.com/ZhangYW18/weibo/models"
 
 	"github.com/gin-gonic/gin"
 )

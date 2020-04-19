@@ -64,23 +64,23 @@
 
     可以用go env GOPATH查看当前的GOPATH:
 
-    ```shell
+    ```shell script
     go env GOPATH
     ```
 
 2. cd到GOPATH下，将本项目放进GOPATH/src/github.com/VampireWeekend当中
 
-    ```shell
-    mkdir -p (YOUR GOPATH)/src/github.com/VampireWeekend
-    cd (YOUR GOPATH)/src/github.com/VampireWeekend
-    git clone https://github.com/VampireWeekend/weibo.git
+    ```shell script
+    go get -u github.com/ZhangYW18/weibo
+    cd $GOPATH/src/github.com/ZhangYW18/weibo
+    go get -d -v ./...
     ```
 
 3. 在项目根目录main.go当中将17，18行的代码的路径改为本地路径
 
     ```Go
-    router.Static("/static", "YOUR GOPATH/src/github.com/VampireWeekend/weibo/static")
-    router.LoadHTMLGlob("YOUR GOPATH/src/github.com/VampireWeekend/weibo/views/**/*")
+    router.Static("/static", "YOUR GOPATH/src/github.com/ZhangYW18/weibo/static")
+    router.LoadHTMLGlob("YOUR GOPATH/src/github.com/ZhangYW18/weibo/views/**/*")
     ```
 
     此外，在main.go倒数第三行可以设置项目本地运行的端口号：
@@ -93,4 +93,4 @@
 
 ## 项目示例
 
-To be updated ......
+![image-20200419184221989](./images/example.png)

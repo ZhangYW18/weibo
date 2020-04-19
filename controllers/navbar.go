@@ -3,9 +3,10 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/VampireWeekend/weibo/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ZhangYW18/weibo/models"
 )
 
 func NavbarGet(c *gin.Context) {

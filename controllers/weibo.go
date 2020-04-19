@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/VampireWeekend/weibo/models"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ZhangYW18/weibo/models"
 )
 
 // 获取一个用户自己的微博

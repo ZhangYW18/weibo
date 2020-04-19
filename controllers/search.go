@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/VampireWeekend/weibo/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ZhangYW18/weibo/models"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
