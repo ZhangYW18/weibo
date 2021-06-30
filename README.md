@@ -16,7 +16,7 @@ To implement a simple Weibo platform. The features of the Weibo platform include
 
 ## Tech Stack and Dev Environment
 
-Front-end framework: Bootstrap, jQuery
+Front-end: Bootstrap, jQuery
 
 Front-end development environment: IntelliJ Webstorm
 
